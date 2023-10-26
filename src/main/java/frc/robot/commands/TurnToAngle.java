@@ -1,6 +1,6 @@
-// VSpace\romiGyroDrivPID - C            TurnDegrGyro.j auto command
+// VSpace\romiGyroDrivPID - C            TurnToAngle.j auto PIDCommand
 
-// mod uses onboard gyro + PID control instead of distance wheel has turned
+//  uses onboard gyro + PID control instead of distance wheel has turned
 
 package frc.robot.commands;
 
@@ -24,7 +24,7 @@ public class TurnToAngle extends PIDCommand {
         targetAngleDegree,
         // Pipe output to turn robot; fine tuning highly dependent on
         // output multiplier along w/ k_'s
-        output -> drive.arcaDriv(0, output* 0.5),
+        output -> drive.arcaDriv(0, output * 0.5),
         // Require the drive
         drive);  // end super
 

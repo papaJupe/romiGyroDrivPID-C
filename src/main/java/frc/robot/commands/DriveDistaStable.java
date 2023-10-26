@@ -1,4 +1,4 @@
-// VSpace\romiGyroDrivPID - C  auto drive straight DriveDistanceStable.j 
+// romiGyroDrivPID - C  auto drive straight DriveDistanceStable.j 
 
 package frc.robot.commands;
 
@@ -12,22 +12,18 @@ public class DriveDistaStable extends PIDCommand {
   private final double m_distance;
   private final DriveSubsys m_drive;
 
-  /** Construct a new DriveDistaStable PIDcmd */
   public DriveDistaStable(double speed, double inch, DriveSubsys drive) {
-    super(
-        new PIDController(
-            DriveConstants.kStabilizP,
-            DriveConstants.kStabilizI,
-            DriveConstants.kStabilizD),
+    super( new PIDController(
+				DriveConstants.kStabilizP,
+				DriveConstants.kStabilizI,
+				DriveConstants.kStabilizD),
         // feedback using the turn angle (? calcul rate from angle)
         drive::getGyroAngleZ,
         // Setpoint is 0, v. initialize() below
         0,
-        // Pipe the output to the turning cmd
-        // output sign apparently same as stick's ? should correct error
+        // Pipe the output to the turning cmd; output sign same as stick's?
         output -> drive.arcaDriv(speed, output),
-        // Require the robot drive
-        drive); // end super()
+        drive); // end super() // require target subsystem
 
     // m_speed = speed;
     m_distance = inch;
@@ -38,23 +34,20 @@ public class DriveDistaStable extends PIDCommand {
     // setpoint before it's considered to have reached the reference
     getController()
         .setTolerance(DriveConstants.kTurnTolerDeg,
-               DriveConstants.kTurnTolerVeloc);
+                     DriveConstants.kTurnTolerVeloc);
   } // end constructor
-
-  // Called when the command is initially scheduled.
-  @Override
+ 
+  @Override  // Called when command is initially scheduled.
   public void initialize() {
-    m_drive.arcaDriv(0, 0);
+    m_drive.arcaDriv(0, 0); 
     m_drive.resetEncoders();
     m_drive.resetGyro();
   }
-
-  // Called once the command ends or is interrupted.
-  @Override
+  
+  @Override // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
     m_drive.arcaDriv(0, 0);
   }
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

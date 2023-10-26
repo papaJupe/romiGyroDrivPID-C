@@ -1,6 +1,8 @@
 // romiGyroDrivPID - C                             Robot.j
 
 // use WPI PIDcontrol lib on romi w/ PWM motor, cmd/subsys framewk
+// drive PID Cmd made/called in RC's constructor; turn PIDController
+// made in TurnToAngle PIDCommand class, called in auto sequence
 
 // For live vision, attach camera to any pi port, its cam server streams
 // automatically to pi web interface: wpilibpi.local:1181 or mpeg stream,
@@ -21,8 +23,7 @@ public class Robot extends TimedRobot {
   public RobotContainer m_robotContainer;
 
   /** This function is run when the robot is first started and runs
-   * periodics. Initialization of this robot's specifics done in RC    
-   */
+   * periodics. Initialization of this robot's specifics done in RC  */
   @Override
   public void robotInit() {
     // Instantiate RobotContainer --> RC declares, instances, configs the
@@ -51,12 +52,11 @@ public class Robot extends TimedRobot {
     }
 
   @Override // incessant (-/+) drift, so to reset manually in disabled
-  			//  mode you can press button 1 [xbox button A]
+  			// mode you can press button 1 [xbox button A]
   public void disabledPeriodic() {
     if (RobotContainer.m_controller.getRawButton(1))
       m_robotContainer.m_drivetrain.resetGyro();
   }
-
 
   // autoInit runs the autonomous command set in {@link RobotContainer}
   @Override
@@ -72,11 +72,8 @@ public class Robot extends TimedRobot {
   // This function is called periodically during autonomous.
   @Override
   public void autonomousPeriodic() {
-    // in v. C (this) straight drive uses PIDcontroller; ? need here NO
-    // if (RobotContainer.m_controller.getRawButton(6))
-    //   m_robotContainer.m_drivetrain.setGyroMode(true);
-    // else
-    //   m_robotContainer.m_drivetrain.setGyroMode(false);
+    // in (this) v. C, stabiliz auto drive uses PIDcontroller by default;
+
   }
   @Override
   public void teleopInit() {
@@ -105,7 +102,7 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
-  /** This function is called periodically during test mode. */
+  /**  called periodically during test mode. */
   @Override
   public void testPeriodic() {
   }
