@@ -14,14 +14,15 @@ public class DriveDistance extends CommandBase {
   /**
    * Creates new DriveDistance command; goes straight fwd/bak at set
    * speed for distance per wheel encoders. No stabiliz unless Rt bumper
-   * button held
+   * button held, so I use DDStable in sequence auto
+   * 
    * @param speed  The speed [0-1] for the robot to drive
    * @param inches The number of inches the robot to drive
    * @param drive  The drivetrain subsystem for this cmd
    */
   public DriveDistance(double speed, double inches, DriveSubsys drive) {
-    m_distance = inches;
     m_speed = speed;
+    m_distance = inches;
     m_drive = drive;
     addRequirements(drive);
   }
@@ -37,12 +38,7 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs it.
   @Override
   public void execute() {
-    // if (m_drive.getGyroMode()) { // if it's been set to true in the subsys
-    //   m_drive.arcaGyve(m_speed, 0);
-    //   // System.out.println("using gyroMode");
-    // } else // normal aD using params from auto distance cmd
-    // will button press-->PIDcontrol override this 0 for rot. ??
-      m_drive.arcaDriv(m_speed, 0);
+     m_drive.arcaDriv(m_speed, 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,4 +53,4 @@ public class DriveDistance extends CommandBase {
     // Compare distance travelled from start to desired distance
     return Math.abs(m_drive.getAverageDistanceInch()) >= m_distance;
   }
-}   // end class
+} // end class

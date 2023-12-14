@@ -1,4 +1,4 @@
-// VSpace\romiGyroDrivPID - C              DriveSubsystem. j
+// romiGyroDrivPID - C              DriveSubsystem. j
 
 package frc.robot.subsystems;
 
@@ -6,40 +6,38 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.sensors.RomiGyro;
 
 public class DriveSubsys extends SubsystemBase {
   private static final double kCountsPerRevolution = 1440.0;
-  private static final double kWheelDiameterInch = 2.7; // 70 mm
-  private double maxFactor = 1.0; // speed multiplier w/ button 5
+  private static final double kWheelDiameterInch = 2.75591; // 70 mm
+  private double maxFactor = 0.8; // speed multiplier, change w/ button 5
 
-  // The Romi has the left and right motors set to PWM channels 0 and 1
+  // The Romi has the left and right motors set to
+  // PWM channels 0 and 1 respectively
   private final Spark m_leftMotor = new Spark(0);
   private final Spark m_rightMotor = new Spark(1);
 
-  // The Romi onboard encoders are hardcoded to DIO pins 4/5 and 6/7
+  // The Romi has onboard encoders that are hardcoded
+  // to use DIO pins 4/5 and 6/7 for the left and right
   private final Encoder m_leftEncoder = new Encoder(4, 5);
   private final Encoder m_rightEncoder = new Encoder(6, 7);
 
-  // Use DifferentialDrive: arcadeDrive method, deadband 0.02, squares inputs
-  private final DifferentialDrive m_diffDrive = new DifferentialDrive
-       (m_leftMotor, m_rightMotor);
+  // Using differential drive controller for its arcade drive method
+  // [applies default deadband 0.02,squares inputs]
+  private final DifferentialDrive m_diffDrive =
+              new DifferentialDrive(m_leftMotor, m_rightMotor);
 
-  // select normal aD() or subsys's arcaGyve()<-- set by button in auto &
-  // teleoPeriod, got by AD cmd in some versions, not this one
- //  public boolean gyroMode = false;
 
-  // instance the RomiGyro
+  // instance  RomiGyro
   public final RomiGyro m_gyro = new RomiGyro();
 
-  // private final BuiltInAccelerometer m_accelerometer =
-  // newBuiltInAccelerometer();
-
-  /** Constructs a new Drivetrain subsyst */
+  /** Construct a new Drivetrain subsyst */
   public DriveSubsys() {
-    // We need to invert one side of the drivetrain so that + voltage
-    // drives both sides forward. Depending on how your robot's
-    // gearbox is constructed, you might want to invert the left side.
+    // We need to invert one side of the drivetrain so that positive voltages
+    // result in both sides moving forward. Depending on how your robot's
+    // gearbox is constructed, you might have to invert the left side instead.
     m_rightMotor.setInverted(true);
 
     // Use inches as unit for encoder distances
@@ -51,26 +49,36 @@ public class DriveSubsys extends SubsystemBase {
     resetGyro();
   } // end constructor
 
-  // public void setGyroMode(boolean maybe) {
-  //   gyroMode = maybe; }
-  // public boolean getGyroMode() {
-  //   return gyroMode; }
 
   public void setMaxOutput(double d) {
-    maxFactor = d;  }
-
-  // sloppy naming by WPI: top aD() is subsys. method, second is inherited
-  // diffDrive method; using same name (orig. base code) confuses the issue
-  public void arcaDriv(double xaxisSpeed, double zaxisRotate) {
-    // diffDrive's aD inverts z-rot param so that + goes CCW; I must invert
-    // z-rot value here so that + value from Xpad turns bot CW
-    m_diffDrive.arcadeDrive(xaxisSpeed * maxFactor, -zaxisRotate, true);
+    maxFactor = d;
   }
 
+
+
+
+
+
+  // sloppy naming by WPI: top aD() is subsys. method, second is inherited
+  // diffDrive method; using same name confuses the issue, so I don't
+  public void arcaDriv(double xaxisSpeed, double zaxisRotate) {
+    // diffDrive's aD internally inverts z-rot to make (-) go CW, so..
+    m_diffDrive.arcadeDrive(xaxisSpeed * maxFactor, -zaxisRotate, true);
+  }
+      // small corrective PID numbers work better if not squared
+  public void arcaDrivP(double xaxisSpeed, double zaxisRotate) {
+    // diffDrive's aD internally inverts z-rot to make (-) go CW, so..
+    m_diffDrive.arcadeDrive(xaxisSpeed * maxFactor, -zaxisRotate, false);
+  }
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();
   }
+    // Re'zero' the gyro.
+  public void resetGyro() {
+    m_gyro.reset();
+    System.out.println("gyro reset");
+    }
   public int getLeftEncoderCount() {
     return m_leftEncoder.get();
   }
@@ -86,11 +94,6 @@ public class DriveSubsys extends SubsystemBase {
   public double getAverageDistanceInch() {
     return (getLeftDistanceInch() + getRightDistanceInch()) / 2.0;
   }
-  // Re'zero' the gyro.
-  public void resetGyro() {
-    m_gyro.reset();
-    System.out.println("gyro reset");
-  }
   // @return The current X angle of the Romi in degrees
   public double getGyroAngleX() {
     return m_gyro.getAngleX();
@@ -103,17 +106,8 @@ public class DriveSubsys extends SubsystemBase {
   public double getGyroAngleZ() {
     return m_gyro.getAngleZ();
   }
-  // @return The acceleration of the Romi along the X-axis in Gs
-  // public double getAccelX() {
-  // return m_accelerometer.getX();
-  // }
-  // public double getAccelY() {
-  // return m_accelerometer.getY();
-  // }
-  // public double getAccelZ() {
-  // return m_accelerometer.getZ();
-  // }
   @Override
   public void periodic() {
+    // This method will be called once per scheduler run
   }
 } // end class

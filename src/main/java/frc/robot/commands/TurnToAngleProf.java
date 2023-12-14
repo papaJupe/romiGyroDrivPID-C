@@ -45,7 +45,7 @@ public class TurnToAngleProf extends ProfiledPIDCommand {
     // Set the controller tolerance - the delta tolerance ensures the robot 
     // is stationary at the setpoint before it isFinished
     getController().setTolerance
-            (DriveConstants.kTurnTolerDeg, DriveConstants.kTurnTolerVeloc);
+            (DriveConstants.kTurnTolerDeg, DriveConstants.kTurnRateTolerVeloc);
   }  // end constructor
 
     // Called when the command is initially scheduled.

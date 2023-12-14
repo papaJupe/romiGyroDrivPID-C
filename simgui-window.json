@@ -5,50 +5,73 @@
   "MainWindow": {
     "GLOBAL": {
       "fps": "120",
-      "height": "704",
+      "height": "700",
       "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "980",
-      "xpos": "25",
-      "ypos": "47"
+      "width": "984",
+      "xpos": "10",
+      "ypos": "266"
+    }
+  },
+  "Table": {
+    "0x542B5671,2": {
+      "Column 0  Width": "151",
+      "Column 1  Width": "542",
+      "RefScale": "13"
+    },
+    "0xE56EC1C2,4": {
+      "Column 0  Weight": "1.0000",
+      "Column 1  Weight": "1.0000",
+      "Column 2  Weight": "1.0000",
+      "Column 3  Weight": "1.0000"
     }
   },
   "Window": {
     "###/SmartDashboard/SendableChooser[0]": {
       "Collapsed": "0",
-      "Pos": "111,31",
-      "Size": "254,54"
+      "Pos": "314,37",
+      "Size": "307,60"
     },
     "###Encoders": {
       "Collapsed": "0",
-      "Pos": "245,96",
-      "Size": "231,445"
+      "Pos": "2,155",
+      "Size": "280,502"
     },
     "###FMS": {
       "Collapsed": "0",
-      "Pos": "5,596",
-      "Size": "283,146"
+      "Pos": "4,482",
+      "Size": "336,164"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "5,485",
-      "Size": "796,172"
+      "Pos": "296,473",
+      "Size": "976,278"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "481,99",
-      "Size": "474,271"
+      "Pos": "311,107",
+      "Size": "588,320"
+    },
+    "###NetworkTables Info": {
+      "Collapsed": "0",
+      "Pos": "250,130",
+      "Size": "750,145"
+    },
+    "###Other Devices": {
+      "Collapsed": "0",
+      "Pos": "1107,34",
+      "Size": "157,655"
     },
     "###System Joysticks": {
       "Collapsed": "0",
-      "Pos": "7,255",
-      "Size": "230,218"
+      "Pos": "7,260",
+      "Size": "232,254"
     },
     "###Timing": {
       "Collapsed": "0",
-      "Pos": "10,126",
-      "Size": "135,127"
+      "Pos": "3,128",
+      "Size": "162,142"
     },
     "Debug##Default": {
       "Collapsed": "0",
@@ -57,8 +80,8 @@
     },
     "Robot State": {
       "Collapsed": "0",
-      "Pos": "5,20",
-      "Size": "92,99"
+      "Pos": "5,21",
+      "Size": "109,114"
     }
   }
 }
